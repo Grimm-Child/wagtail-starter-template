@@ -1,0 +1,33 @@
+<title>
+    {% block title %}
+        {% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}
+    {% endblock %}
+    {% block title_suffix %}
+        {% with self.get_site.site_name as site_name %}
+            {% if site_name %}| {{ site_name }}{% endif %}
+        {% endwith %}
+    {% endblock %}
+</title>
+
+<meta name="description" content="{% if self.search_description %}{{ self.search_description }}{% endif %}">
+
+<meta name="og:title" content="insert page title here">
+<meta name="og:description" content="insert page description here">
+<meta name="og:image" content="insert page image here">
+
+{# TODO: move to blog post template #}
+<meta name="article:author" content="insert page author here">
+<meta name="article:published_time" content="insert page publish date here">
+<meta name="article:modified_time" content="insert page modified date here">
+
+<meta name="twitter:title" content="insert page title here">
+<meta name="twitter:description" content="insert page description here">
+<meta name="twitter:image" content="insert page thumbnail here">
+
+<meta name="itemName" content="insert page title here">
+<meta name="itemDescription" content="insert page description here">
+<meta name="itemImage" content="insert page thumbnail here">
+
+{% block extra_head %}
+    {# Override this in templates to add extra head tags #}
+{% endblock %}

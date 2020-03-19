@@ -1,0 +1,7 @@
+# System folders
+.idea
+.vscode
+
+# Project folders
+.venv
+node_modules

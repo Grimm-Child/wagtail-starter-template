@@ -1,0 +1,21 @@
+{% load wagtailuserbar %}
+
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        {% include "includes/head_seo.html" %}
+
+        {% include "includes/head_styles.html" %}
+    </head>
+
+    <body class="{% block body_class %}template-{{ self.get_verbose_name|slugify }}{% endblock %}">
+        {% wagtailuserbar %}
+
+        {% block content %}{% endblock %}
+
+        {% include "includes/body_scripts.html" %}
+    </body>
+</html>

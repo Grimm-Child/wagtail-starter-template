@@ -1,0 +1,8 @@
+{% load static %}
+
+{# Global stylesheets #}
+<link rel="stylesheet" href="{% static 'src/css/website.css' %}">
+
+{% block extra_css %}
+    {# Override this in templates to add extra stylesheets #}
+{% endblock %}
