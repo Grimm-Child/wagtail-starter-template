@@ -1,9 +1,0 @@
-/* line 3, website/static/src/scss/main.scss */
-body {
-  display: -ms-flexbox;
-  display: flex;
-  background-color: #213456;
-  background-blend-mode: multiply;
-  position: -webkit-sticky;
-  position: sticky;
-}
