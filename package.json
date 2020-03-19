@@ -4,11 +4,11 @@
   "main": "index.js",
   "license": "MIT",
   "devDependencies": {
-    "autoprefixer": "^9.7.4",
     "del": "^5.1.0",
     "gulp": "^4.0.2",
     "gulp-postcss": "^8.0.0",
     "gulp-sass": "^4.0.2",
-    "node-sass": "^4.13.1"
+    "node-sass": "^4.13.1",
+    "postcss-preset-env": "^6.7.0"
   }
 }
