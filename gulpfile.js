@@ -1,7 +1,7 @@
 "use strict";
 
 // Imports
-var { src, dest, series } = require("gulp");
+var { src, dest, series, parallel } = require("gulp");
 var pkg = require("./package.json");
 var header = require("gulp-header");
 var del = require("del");
@@ -15,14 +15,16 @@ var cssnano = require("cssnano");
 sass.compiler = require("node-sass");
 
 // Banner for file headers
-var banner = ['/**',
-  ' * <%= pkg.name %> v<%= pkg.version %>',
-  ' * @author <%= pkg.author.name %> <%= pkg.author.email %>',
-  ' * @description <%= pkg.description %>',
-  ' * @link <%= pkg.repository.url %>',
-  ' * @license <%= pkg.license %>',
-  ' */',
-  ''].join('\n');
+var banner = [
+    "/**",
+    " * <%= pkg.name %> v<%= pkg.version %>",
+    " * @author <%= pkg.author.name %> <%= pkg.author.email %>",
+    " * @description <%= pkg.description %>",
+    " * @link <%= pkg.repository.url %>",
+    " * @license <%= pkg.license %>",
+    " */",
+    ""
+].join("\n");
 
 // Settings
 var settings = {
@@ -76,12 +78,12 @@ function buildStyles(done) {
 
     // Process styles
     return src(stylesPaths.input)
-        .pipe(sass({ outputStyle: "expanded", sourceComments: true }).on('error', sass.logError))
-        .pipe(postcss([ postcssPresetEnv() ]))
+        .pipe(sass({ outputStyle: "expanded", sourceComments: true }).on("error", sass.logError))
+        .pipe(postcss([postcssPresetEnv()]))
         .pipe(header(banner, { pkg: pkg }))
         .pipe(dest(stylesPaths.output))
         .pipe(rename({ suffix: ".min" }))
-        .pipe(postcss([ cssnano() ]))
+        .pipe(postcss([cssnano()]))
         .pipe(header(banner, { pkg: pkg }))
         .pipe(dest(stylesPaths.output));
 
@@ -89,8 +91,4 @@ function buildStyles(done) {
     // TODO: add source maps
 }
 
-exports.default = series(cleanDist, copyFiles, buildStyles);
-
-exports.cleanDist = cleanDist;
-exports.copyFiles = copyFiles;
-exports.buildStyles = buildStyles;
+exports.default = series(cleanDist, parallel(copyFiles, buildStyles));
