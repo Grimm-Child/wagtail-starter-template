@@ -87,7 +87,6 @@ function buildStyles(done) {
         .pipe(header(banner, { pkg: pkg }))
         .pipe(dest(stylesPaths.output));
 
-    // TODO: add header
     // TODO: add source maps
 }
 
