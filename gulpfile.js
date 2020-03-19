@@ -3,9 +3,11 @@
 // Imports
 var { src, dest, series } = require("gulp");
 var del = require("del");
+var rename = require("gulp-rename");
 var sass = require("gulp-sass");
 var postcss = require("gulp-postcss");
 var postcssPresetEnv = require("postcss-preset-env");
+var cssnano = require("cssnano");
 
 // Vendor settings
 sass.compiler = require("node-sass");
@@ -64,11 +66,12 @@ function buildStyles(done) {
     return src(stylesPaths.input)
         .pipe(sass({ outputStyle: "expanded", sourceComments: true }).on('error', sass.logError))
         .pipe(postcss([ postcssPresetEnv() ]))
+        .pipe(dest(stylesPaths.output))
+        .pipe(rename({ suffix: ".min" }))
+        .pipe(postcss([ cssnano() ]))
         .pipe(dest(stylesPaths.output));
 
     // TODO: add header
-    // TODO: add renaming
-    // TODO: add minification
     // TODO: add source maps
 }
 
