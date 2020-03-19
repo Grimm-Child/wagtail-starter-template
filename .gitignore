@@ -4,6 +4,7 @@
 
 # Project folders
 .venv
-media
+__pycache__
 node_modules
+media
 website/static/dist
