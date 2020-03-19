@@ -4,6 +4,8 @@
 var { src, dest, series } = require("gulp");
 var del = require("del");
 var sass = require("gulp-sass");
+var postcss = require("gulp-postcss");
+var autoprefixer = require("autoprefixer");
 
 // Vendor settings
 sass.compiler = require("node-sass");
@@ -61,7 +63,13 @@ function buildStyles(done) {
     // Process styles
     return src(stylesPaths.input)
         .pipe(sass({ outputStyle: "expanded", sourceComments: true }).on('error', sass.logError))
+        .pipe(postcss([ autoprefixer() ]))
         .pipe(dest(stylesPaths.output));
+
+    // TODO: add header
+    // TODO: add renaming
+    // TODO: add minification
+    // TODO: add source maps
 }
 
 exports.default = series(cleanDist, copyFiles, buildStyles);
