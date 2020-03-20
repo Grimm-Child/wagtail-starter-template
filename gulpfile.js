@@ -77,22 +77,12 @@ function buildStyles(done) {
   if (!settings.styles) return done();
 
   // Process styles
-  return src(stylesPaths.input)
-    .pipe(
-      sass({ outputStyle: "expanded", sourceComments: true }).on(
-        "error",
-        sass.logError
-      )
-    )
-    .pipe(postcss([postcssPresetEnv()]))
-    .pipe(header(banner, { pkg: pkg }))
-    .pipe(dest(stylesPaths.output))
+  return src(stylesPaths.input, { sourcemaps: true })
+    .pipe(sass().on("error", sass.logError))
+    .pipe(postcss([cssnano(), postcssPresetEnv()]))
     .pipe(rename({ suffix: ".min" }))
-    .pipe(postcss([cssnano()]))
     .pipe(header(banner, { pkg: pkg }))
-    .pipe(dest(stylesPaths.output));
-
-  // TODO: add source maps
+    .pipe(dest(stylesPaths.output, { sourcemaps: "." }));
 }
 
 exports.default = series(cleanDist, parallel(copyFiles, buildStyles));
