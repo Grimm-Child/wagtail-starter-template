@@ -1,16 +1,17 @@
 {
   "name": "wagtail-starter-template",
-  "description": "A blog project tempĺate with ready-to-use build tasks based on Wagtail CMS",
   "version": "1.0.0",
+  "description": "A blog project tempĺate with ready-to-use build tasks based on Wagtail CMS",
   "main": "index.js",
-  "license": "MIT",
   "author": {
-      "name": "Felipe Almeida",
-      "email": "felipeortalmeida@gmail.com",
-      "url": "https://github.com/felipeozalmeida"
+    "name": "Felipe Almeida",
+    "email": "felipeortalmeida@gmail.com",
+    "url": "https://github.com/felipeozalmeida"
   },
+  "license": "MIT",
   "repository": {
-      "url": "https://github.com/felipeozalmeida/wagtail-starter-template"
+    "type": "git",
+    "url": "https://github.com/felipeozalmeida/wagtail-starter-template"
   },
   "devDependencies": {
     "cssnano": "^4.1.10",
