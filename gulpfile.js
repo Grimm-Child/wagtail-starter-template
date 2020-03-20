@@ -16,78 +16,83 @@ sass.compiler = require("node-sass");
 
 // Banner for file headers
 var banner = [
-    "/**",
-    " * <%= pkg.name %> v<%= pkg.version %>",
-    " * @author <%= pkg.author.name %> <%= pkg.author.email %>",
-    " * @description <%= pkg.description %>",
-    " * @link <%= pkg.repository.url %>",
-    " * @license <%= pkg.license %>",
-    " */",
-    ""
+  "/**",
+  " * <%= pkg.name %> v<%= pkg.version %>",
+  " * @author <%= pkg.author.name %> <%= pkg.author.email %>",
+  " * @description <%= pkg.description %>",
+  " * @link <%= pkg.repository.url %>",
+  " * @license <%= pkg.license %>",
+  " */",
+  ""
 ].join("\n");
 
 // Settings
 var settings = {
-    clean: true,
-    copy: true,
-    styles: true
+  clean: true,
+  copy: true,
+  styles: true
 };
 
 // Paths
 
 var paths = {
-    input: "website/static/src/",
-    output: "website/static/dist/"
+  input: "website/static/src/",
+  output: "website/static/dist/"
 };
 
 var copyPaths = {
-    input: paths.input + "copy/**/*",
-    output: paths.output
+  input: paths.input + "copy/**/*",
+  output: paths.output
 };
 
 var stylesPaths = {
-    input: paths.input + "scss/**/*.scss",
-    output: paths.output + "css/"
+  input: paths.input + "scss/**/*.scss",
+  output: paths.output + "css/"
 };
 
 // Functions
 
 function cleanDist(done) {
-    // Make sure this feature is activated before running
-    if (!settings.clean) return done();
+  // Make sure this feature is activated before running
+  if (!settings.clean) return done();
 
-    // Clean the dist folder
-    del.sync([paths.output]);
+  // Clean the dist folder
+  del.sync([paths.output]);
 
-    // Signal completion
-    return done();
+  // Signal completion
+  return done();
 }
 
 // Copy static files into output folder
 function copyFiles(done) {
-    // Make sure this feature is activated before running
-    if (!settings.copy) return done();
+  // Make sure this feature is activated before running
+  if (!settings.copy) return done();
 
-    // Copy static files
-    return src(copyPaths.input).pipe(dest(copyPaths.output));
+  // Copy static files
+  return src(copyPaths.input).pipe(dest(copyPaths.output));
 }
 
 function buildStyles(done) {
-    // Make sure this feature is activated before running
-    if (!settings.styles) return done();
+  // Make sure this feature is activated before running
+  if (!settings.styles) return done();
 
-    // Process styles
-    return src(stylesPaths.input)
-        .pipe(sass({ outputStyle: "expanded", sourceComments: true }).on("error", sass.logError))
-        .pipe(postcss([postcssPresetEnv()]))
-        .pipe(header(banner, { pkg: pkg }))
-        .pipe(dest(stylesPaths.output))
-        .pipe(rename({ suffix: ".min" }))
-        .pipe(postcss([cssnano()]))
-        .pipe(header(banner, { pkg: pkg }))
-        .pipe(dest(stylesPaths.output));
+  // Process styles
+  return src(stylesPaths.input)
+    .pipe(
+      sass({ outputStyle: "expanded", sourceComments: true }).on(
+        "error",
+        sass.logError
+      )
+    )
+    .pipe(postcss([postcssPresetEnv()]))
+    .pipe(header(banner, { pkg: pkg }))
+    .pipe(dest(stylesPaths.output))
+    .pipe(rename({ suffix: ".min" }))
+    .pipe(postcss([cssnano()]))
+    .pipe(header(banner, { pkg: pkg }))
+    .pipe(dest(stylesPaths.output));
 
-    // TODO: add source maps
+  // TODO: add source maps
 }
 
 exports.default = series(cleanDist, parallel(copyFiles, buildStyles));
